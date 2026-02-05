@@ -1,6 +1,6 @@
 using TicketHub.API.DTOs.User;
 
-namespace TicketHub.API.Services
+namespace TicketHub.API.Services.Interfaces
 {
     public interface IUserService
     {

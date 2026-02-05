@@ -6,8 +6,9 @@ using TicketHub.API.DTOs.User;
 using TicketHub.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using TicketHub.API.Services.Interfaces;
 
-namespace TicketHub.API.Services
+namespace TicketHub.API.Services.Implementations
 {
     public class AuthService : IAuthService
     {

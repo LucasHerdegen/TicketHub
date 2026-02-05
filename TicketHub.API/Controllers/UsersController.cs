@@ -1,5 +1,5 @@
 using TicketHub.API.DTOs.User;
-using TicketHub.API.Services;
+using TicketHub.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;

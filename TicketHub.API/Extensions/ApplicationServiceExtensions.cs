@@ -3,7 +3,7 @@ using TicketHub.API.DTOs.User;
 using TicketHub.API.Mappers;
 using TicketHub.API.Models;
 using TicketHub.API.Repository;
-using TicketHub.API.Services;
+using TicketHub.API.Services.Interfaces;
 using TicketHub.API.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using TicketHub.API.Services.Implementations;
 
 namespace TicketHub.API.Extensions
 {
