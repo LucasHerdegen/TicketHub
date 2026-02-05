@@ -1,5 +1,5 @@
 using AutoMapper;
-using TicketHub.API.DTOs;
+using TicketHub.API.DTOs.User;
 using TicketHub.API.Models;
 
 namespace TicketHub.API.Mappers

@@ -1,4 +1,4 @@
-using TicketHub.API.DTOs;
+using TicketHub.API.DTOs.User;
 
 namespace TicketHub.API.Services
 {

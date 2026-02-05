@@ -1,5 +1,5 @@
 using TicketHub.API.Controllers;
-using TicketHub.API.DTOs;
+using TicketHub.API.DTOs.User;
 using TicketHub.API.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

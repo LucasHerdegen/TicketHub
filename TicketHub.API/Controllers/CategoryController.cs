@@ -6,6 +6,5 @@ namespace TicketHub.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-
     }
 }

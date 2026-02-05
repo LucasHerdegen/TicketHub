@@ -1,4 +1,4 @@
-using TicketHub.API.DTOs;
+using TicketHub.API.DTOs.User;
 using TicketHub.API.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;

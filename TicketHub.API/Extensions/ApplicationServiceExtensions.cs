@@ -1,5 +1,5 @@
 using System.Text;
-using TicketHub.API.DTOs;
+using TicketHub.API.DTOs.User;
 using TicketHub.API.Mappers;
 using TicketHub.API.Models;
 using TicketHub.API.Repository;

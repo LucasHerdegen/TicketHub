@@ -1,4 +1,4 @@
-namespace TicketHub.API.DTOs
+namespace TicketHub.API.DTOs.User
 {
     public class TokenDto
     {
