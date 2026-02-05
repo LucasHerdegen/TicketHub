@@ -133,7 +133,7 @@ namespace TicketHub.API.Extensions
         {
             services.AddOutputCache(options =>
             {
-                options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromSeconds(60)));
+                options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromSeconds(30)));
             });
 
             return services;

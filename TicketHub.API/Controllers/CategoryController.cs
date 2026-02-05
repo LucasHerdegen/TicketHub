@@ -1,5 +1,7 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using TicketHub.API.DTOs.Category;
 using TicketHub.API.Pagination;
 using TicketHub.API.Services.Interfaces;
@@ -8,6 +10,7 @@ namespace TicketHub.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;
@@ -24,6 +27,7 @@ namespace TicketHub.API.Controllers
         }
 
         [HttpGet]
+        [OutputCache]
         public async Task<ActionResult<PagedList<CategoryDto>>> GetCategories(PaginationParams pParams)
         {
             var pCategories = await _service.GetCategories(pParams);
@@ -31,6 +35,7 @@ namespace TicketHub.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [OutputCache]
         public async Task<ActionResult<CategoryDto>> GetCategory(int id)
         {
             if (id <= 0)
@@ -44,6 +49,7 @@ namespace TicketHub.API.Controllers
             return Ok(category);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryPostDto categoryPostDto)
         {
@@ -60,6 +66,7 @@ namespace TicketHub.API.Controllers
             return CreatedAtAction(nameof(GetCategory), new { Id = category.Id }, category);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateCategory(CategoryPutDto categoryPutDto)
         {
@@ -76,6 +83,7 @@ namespace TicketHub.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(int id)
         {
