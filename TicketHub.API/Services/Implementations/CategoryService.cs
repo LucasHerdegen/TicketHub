@@ -56,7 +56,7 @@ namespace TicketHub.API.Services.Implementations
             await _repository.Create(category);
             await _repository.Save();
 
-            var newCategory = (await _repository.GetById(category.Id))!;
+            var newCategory = await _repository.GetById(category.Id);
             var categoryDto = _mapper.Map<CategoryDto>(newCategory);
 
             return categoryDto;
