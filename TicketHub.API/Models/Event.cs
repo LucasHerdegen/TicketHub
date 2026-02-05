@@ -9,7 +9,7 @@ namespace TicketHub.API.Models
         public string? Name { get; set; }
         public int Capacity { get; set; }
         public DateTime Date { get; set; }
-        [Column(TypeName = "(18,2 )")]
+        [Column(TypeName = "decimal(18,2 )")]
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
         public int CategoryId { get; set; }

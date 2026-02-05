@@ -43,14 +43,14 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<CategoryDto?> CreateCategory(CategoryPostDto categoryPostDto)
         {
-            var exist = await _repository.Any(c => c.Name!.ToUpper() == categoryPostDto.CategoryName!.ToUpper());
+            var exist = await _repository.Any(c => c.Name!.ToUpper() == categoryPostDto.Name!.ToUpper());
 
             if (exist)
                 return null;
 
             var category = new Category
             {
-                Name = categoryPostDto.CategoryName
+                Name = categoryPostDto.Name
             };
 
             await _repository.Create(category);
