@@ -87,7 +87,7 @@ namespace TicketHub.Tests.Controllers
 
             var categoryPostDto = new CategoryPostDto
             {
-                CategoryName = name
+                Name = name
             };
 
             var validationResult = new ValidationResult(new[] { new ValidationFailure("Name", "Name is required") });
@@ -112,7 +112,7 @@ namespace TicketHub.Tests.Controllers
 
             var categoryPostDto = new CategoryPostDto
             {
-                CategoryName = name
+                Name = name
             };
 
             var validationResult = new ValidationResult();
@@ -140,7 +140,7 @@ namespace TicketHub.Tests.Controllers
 
             var categoryPostDto = new CategoryPostDto
             {
-                CategoryName = name
+                Name = name
             };
             var category = new CategoryDto
             {

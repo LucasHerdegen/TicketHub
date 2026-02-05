@@ -78,10 +78,10 @@ namespace TicketHub.Tests.Services
 
             var categoryPostDto = new CategoryPostDto
             {
-                CategoryName = name,
+                Name = name,
             };
 
-            _mockRepo.Setup(repo => repo.Any(c => c.Name!.ToUpper() == categoryPostDto.CategoryName!.ToUpper()))
+            _mockRepo.Setup(repo => repo.Any(c => c.Name!.ToUpper() == categoryPostDto.Name!.ToUpper()))
                 .ReturnsAsync(true);
 
             // act
@@ -90,7 +90,7 @@ namespace TicketHub.Tests.Services
             // assert
             result.Should().BeNull();
             _mockRepo.Verify(repo =>
-                repo.Any(c => c.Name!.ToUpper() == categoryPostDto.CategoryName!.ToUpper()), Times.Once);
+                repo.Any(c => c.Name!.ToUpper() == categoryPostDto.Name!.ToUpper()), Times.Once);
             _mockRepo.Verify(repo => repo.Save(), Times.Never);
         }
 
@@ -103,7 +103,7 @@ namespace TicketHub.Tests.Services
 
             var categoryPostDto = new CategoryPostDto
             {
-                CategoryName = name,
+                Name = name,
             };
             var categoryStored = new Category
             {
