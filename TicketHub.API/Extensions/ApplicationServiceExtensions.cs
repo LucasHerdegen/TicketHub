@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TicketHub.API.Services.Implementations;
+using TicketHub.API.DTOs.Category;
+using TicketHub.API.Validators.Category;
 
 namespace TicketHub.API.Extensions
 {
@@ -110,6 +112,7 @@ namespace TicketHub.API.Extensions
             /* Services */
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             /* Repository */
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -120,6 +123,8 @@ namespace TicketHub.API.Extensions
             /* Validators */
             services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
             services.AddScoped<IValidator<LoginDto>, LoginValidator>();
+            services.AddScoped<IValidator<CategoryPostDto>, CategoryPostValidator>();
+            services.AddScoped<IValidator<CategoryPutDto>, CategoryPutValidator>();
 
             return services;
         }

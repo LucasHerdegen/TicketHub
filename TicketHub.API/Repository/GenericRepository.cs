@@ -34,7 +34,7 @@ namespace TicketHub.API.Repository
         public async Task Save() =>
             await _context.SaveChangesAsync();
 
-        public async Task Any(Expression<Func<T, bool>> expression) =>
+        public async Task<bool> Any(Expression<Func<T, bool>> expression) =>
             await _dbSet.AnyAsync(expression);
 
         public async Task<T?> Find(Expression<Func<T, bool>> expression) =>

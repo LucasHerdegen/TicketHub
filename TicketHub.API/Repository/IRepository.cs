@@ -11,7 +11,7 @@ namespace TicketHub.API.Repository
         void Update(T update);
         void Delete(T delete);
         Task Save();
-        Task Any(Expression<Func<T, bool>> expression);
+        Task<bool> Any(Expression<Func<T, bool>> expression);
         Task<T?> Find(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>?> Get(Expression<Func<T, bool>> predicate);
         Task<int> Count(Expression<Func<T, bool>> predicate);
