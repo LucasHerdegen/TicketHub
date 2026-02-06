@@ -54,15 +54,7 @@ namespace TicketHub.API.Services.Implementations
             if (!validCategory)
                 return null;
 
-            var evnt = new Event
-            {
-                Capacity = eventPostDto.Capacity,
-                CategoryId = eventPostDto.CategoryId,
-                Date = eventPostDto.Date,
-                ImageUrl = eventPostDto.ImageUrl,
-                Name = eventPostDto.Name,
-                Price = eventPostDto.Price
-            };
+            var evnt = _mapper.Map<Event>(eventPostDto);
 
             await _repository.Create(evnt);
             await _repository.Save();
@@ -81,7 +73,9 @@ namespace TicketHub.API.Services.Implementations
                 return false;
 
             var exist = await _repository.Any(e =>
-                e.Name!.ToUpper() == eventPutDto.Name!.ToUpper() && e.Date == eventPutDto.Date);
+                e.Name!.ToUpper() == eventPutDto.Name!.ToUpper() &&
+                e.Date == eventPutDto.Date &&
+                e.Id != eventPutDto.Id);
 
             if (exist)
                 return false;

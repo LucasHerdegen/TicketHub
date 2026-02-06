@@ -23,7 +23,7 @@ namespace TicketHub.API.Mappers
             /* Event */
             CreateMap<Event, EventDto>()
                 .ForMember(x => x.CategoryName, config => config.MapFrom(x => x.Category!.Name));
-            CreateMap<CategoryPutDto, Category>();
+            CreateMap<EventPostDto, Event>();
         }
     }
 }
