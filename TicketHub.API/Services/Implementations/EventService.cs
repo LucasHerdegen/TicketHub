@@ -59,7 +59,7 @@ namespace TicketHub.API.Services.Implementations
             await _repository.Create(evnt);
             await _repository.Save();
 
-            var newEvent = await _repository.GetById(evnt.Id);
+            var newEvent = await _repository.GetEventByIdWithCategory(evnt.Id);
             var eventDto = _mapper.Map<EventDto>(newEvent);
 
             return eventDto;

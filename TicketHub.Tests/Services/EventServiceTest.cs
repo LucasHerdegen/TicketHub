@@ -151,7 +151,7 @@ namespace TicketHub.Tests.Services
             _mockMapper.Setup(mapper => mapper.Map<Event>(eventPostDto)).Returns(evnt);
             _mockRepository.Setup(repo => repo.Create(It.IsAny<Event>()))
                 .Callback<Event>(c => c.Id = id);
-            _mockRepository.Setup(repo => repo.GetById(id)).ReturnsAsync(evnt);
+            _mockRepository.Setup(repo => repo.GetEventByIdWithCategory(id)).ReturnsAsync(evnt);
             _mockMapper.Setup(mapper => mapper.Map<EventDto>(evnt)).Returns(eventDto);
 
             // act
@@ -162,7 +162,7 @@ namespace TicketHub.Tests.Services
             result.Should().Be(eventDto);
             _mockRepository.Verify(repo => repo.Any(EventExpression), Times.Once);
             _mockCategoryRepository.Verify(repo => repo.Any(CategoryExpression), Times.Once);
-            _mockRepository.Verify(repo => repo.GetById(id), Times.Once);
+            _mockRepository.Verify(repo => repo.GetEventByIdWithCategory(id), Times.Once);
         }
 
         [Fact]
