@@ -4,7 +4,7 @@ namespace TicketHub.API.DTOs.Ticket
     {
         public int Id { get; set; }
         public string? UserId { get; set; }
-        public DateTime PucharseDate { get; set; }
+        public DateTime PurchaseDate { get; set; }
         public int EventId { get; set; }
         public string? EventName { get; set; }
     }

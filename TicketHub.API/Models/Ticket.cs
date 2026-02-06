@@ -6,7 +6,7 @@ namespace TicketHub.API.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public DateTime PucharseDate { get; set; } = DateTime.Now;
+        public DateTime PurchaseDate { get; set; } = DateTime.Now;
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
         public int EventId { get; set; }

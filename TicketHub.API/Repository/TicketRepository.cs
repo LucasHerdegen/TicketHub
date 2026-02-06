@@ -14,7 +14,7 @@ namespace TicketHub.API.Repository
             var query = _dbSet.AsNoTracking()
                 .Include(t => t.Event)
                     .ThenInclude(e => e!.Category)
-                .OrderBy(t => t.PucharseDate)
+                .OrderBy(t => t.PurchaseDate)
                 .AsQueryable();
 
             var totalCount = await query.CountAsync();
@@ -33,7 +33,7 @@ namespace TicketHub.API.Repository
                 .Where(t => t.UserId == userId)
                 .Include(t => t.Event)
                     .ThenInclude(e => e!.Category)
-                .OrderBy(t => t.PucharseDate)
+                .OrderBy(t => t.PurchaseDate)
                 .AsQueryable();
 
             var totalCount = await query.CountAsync();
