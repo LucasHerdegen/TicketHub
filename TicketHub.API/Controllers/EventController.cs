@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicketHub.API.DTOs.Event;
 using TicketHub.API.Pagination;
@@ -9,6 +10,7 @@ namespace TicketHub.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
@@ -45,6 +47,7 @@ namespace TicketHub.API.Controllers
             return Ok(evnt);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateEvent(EventPostDto eventPostDto)
         {
@@ -61,6 +64,7 @@ namespace TicketHub.API.Controllers
             return CreatedAtAction(nameof(GetEvent), new { Id = evnt.Id }, evnt);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateEvent(EventPutDto eventPutDto)
         {
@@ -77,6 +81,7 @@ namespace TicketHub.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteEvent(int id)
         {
