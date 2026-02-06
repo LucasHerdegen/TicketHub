@@ -28,7 +28,7 @@ namespace TicketHub.API.Controllers
 
         [HttpGet]
         [OutputCache]
-        public async Task<ActionResult<PagedList<CategoryDto>>> GetCategories(PaginationParams pParams)
+        public async Task<ActionResult<PagedList<CategoryDto>>> GetCategories([FromQuery] PaginationParams pParams)
         {
             var pCategories = await _service.GetCategories(pParams);
             return Ok(pCategories);

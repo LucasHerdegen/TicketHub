@@ -1,6 +1,7 @@
 using AutoMapper;
 using TicketHub.API.DTOs.Category;
 using TicketHub.API.DTOs.Event;
+using TicketHub.API.DTOs.Ticket;
 using TicketHub.API.DTOs.User;
 using TicketHub.API.Models;
 
@@ -24,6 +25,10 @@ namespace TicketHub.API.Mappers
             CreateMap<Event, EventDto>()
                 .ForMember(x => x.CategoryName, config => config.MapFrom(x => x.Category!.Name));
             CreateMap<EventPostDto, Event>();
+            CreateMap<EventPutDto, Event>();
+
+            /* Ticket */
+            CreateMap<Ticket, TicketDto>().ForMember(x => x.EventName, config => config.MapFrom(x => x.Event!.Name));
         }
     }
 }

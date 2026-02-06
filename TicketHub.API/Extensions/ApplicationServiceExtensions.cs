@@ -14,6 +14,10 @@ using Microsoft.OpenApi.Models;
 using TicketHub.API.Services.Implementations;
 using TicketHub.API.DTOs.Category;
 using TicketHub.API.Validators.Category;
+using TicketHub.API.DTOs.Event;
+using TicketHub.API.Validators.Event;
+using TicketHub.API.DTOs.Ticket;
+using TicketHub.API.Validators.Ticket;
 
 namespace TicketHub.API.Extensions
 {
@@ -118,6 +122,7 @@ namespace TicketHub.API.Extensions
             /* Repository */
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
 
             /* Mapper */
             services.AddAutoMapper(typeof(MapperProfile));
@@ -127,6 +132,9 @@ namespace TicketHub.API.Extensions
             services.AddScoped<IValidator<LoginDto>, LoginValidator>();
             services.AddScoped<IValidator<CategoryPostDto>, CategoryPostValidator>();
             services.AddScoped<IValidator<CategoryPutDto>, CategoryPutValidator>();
+            services.AddScoped<IValidator<EventPostDto>, EventPostValidator>();
+            services.AddScoped<IValidator<EventPutDto>, EventPutValidator>();
+            services.AddScoped<IValidator<TicketPostDto>, TicketPostValidator>();
 
             return services;
         }
