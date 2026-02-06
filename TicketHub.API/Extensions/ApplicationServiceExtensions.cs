@@ -117,6 +117,7 @@ namespace TicketHub.API.Extensions
 
             /* Repository */
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IEventRepository, EventRepository>();
 
             /* Mapper */
             services.AddAutoMapper(typeof(MapperProfile));

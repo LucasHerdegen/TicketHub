@@ -9,11 +9,11 @@ namespace TicketHub.API.Services.Implementations
 {
     public class EventService : IEventService
     {
-        private readonly IRepository<Event> _repository;
+        private readonly IEventRepository _repository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
 
-        public EventService(IRepository<Event> repository, IMapper mapper, IRepository<Category> categoryRepository)
+        public EventService(IEventRepository repository, IMapper mapper, IRepository<Category> categoryRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -22,7 +22,7 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<PagedList<EventDto>> GetEvents(PaginationParams pParams)
         {
-            var pEvents = await _repository.GetPaged(pParams);
+            var pEvents = await _repository.GetEventsWithCategory(pParams);
 
             var eventsDto = _mapper.Map<IEnumerable<EventDto>>(pEvents.Items);
 
@@ -31,7 +31,7 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<EventDto?> GetEvent(int id)
         {
-            var evnt = await _repository.GetById(id);
+            var evnt = await _repository.GetEventByIdWithCategory(id);
 
             if (evnt == null)
                 return null;
