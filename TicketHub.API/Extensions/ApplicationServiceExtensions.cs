@@ -113,6 +113,7 @@ namespace TicketHub.API.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IEventService, EventService>();
 
             /* Repository */
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
