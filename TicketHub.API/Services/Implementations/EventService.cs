@@ -44,7 +44,7 @@ namespace TicketHub.API.Services.Implementations
         public async Task<EventDto?> CreateEvent(EventPostDto eventPostDto)
         {
             var exist = await _repository.Any(e =>
-                e.Name!.ToUpper() == eventPostDto.Name!.ToUpper() && e.Date == eventPostDto.Date);
+                e.Name!.ToUpper() == eventPostDto.Name!.ToUpper() && e.Date.Hour == eventPostDto.Date.Hour);
 
             if (exist)
                 return null;
