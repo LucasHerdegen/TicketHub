@@ -36,9 +36,13 @@ namespace TicketHub.API.Services.Implementations
             return new PagedList<TicketDto>(ticketsDto, pTickets.TotalCount, pTickets.CurrentPage, pTickets.PageSize);
         }
 
-        public async Task<TicketDto> GetTicket(int id, string userId)
+        public async Task<TicketDto?> GetTicket(int id, string userId)
         {
             var ticket = await _repository.GetTicketWithEvent(id, userId);
+
+            if (ticket == null)
+                return null;
+
             var ticketDto = _mapper.Map<TicketDto>(ticket);
 
             return ticketDto;
