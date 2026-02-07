@@ -43,6 +43,9 @@ namespace TicketHub.API.Controllers
             if (userId == null)
                 return Unauthorized("The user could not be identified");
 
+            if (id <= 0)
+                return BadRequest("The id must be greater than zero");
+
             var ticket = await _service.GetTicket(id, userId);
 
             if (ticket == null)
@@ -83,13 +86,13 @@ namespace TicketHub.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteTicket(int id)
         {
-            if (id <= 0)
-                return BadRequest("The id must be greater than zero");
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
                 return Unauthorized("The user could not be identified");
+
+            if (id <= 0)
+                return BadRequest("The id must be greater than zero");
 
             var result = await _service.DeleteTicket(id, userId);
 
