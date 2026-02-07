@@ -84,7 +84,7 @@ namespace TicketHub.API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (id <= 0)
