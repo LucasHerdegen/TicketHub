@@ -147,6 +147,59 @@ namespace TicketHub.IntegrationTests.Tests
         }
 
         [Fact]
+        public async Task CreateTicket_RetornaConflict_SiElEvento_EstaAgotado()
+        {
+            await _factory.EnsureCleanDatabaseAsync();
+
+            // arrange
+            int eventId = 1;
+            int categoryId = 1;
+
+            var ticketPostDto = new TicketPostDto
+            {
+                EventId = eventId
+            };
+
+            var client = CreateAuthenticatedClient();
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ApplicationContext>();
+
+                await context!.Categories.AddAsync(new Category
+                {
+                    Id = categoryId,
+                    Name = "Rock"
+                });
+                await context.SaveChangesAsync();
+
+                await context.Events.AddAsync(new Event
+                {
+                    Id = eventId,
+                    CategoryId = categoryId,
+                    Capacity = 1,
+                    Name = "Evento Lleno",
+                    Date = DateTime.Now.AddDays(10),
+                    Price = 100
+                });
+                await context.SaveChangesAsync();
+
+                await context.Tickets.AddAsync(new Ticket
+                {
+                    EventId = eventId,
+                    UserId = "otro-usuario-id"
+                });
+                await context.SaveChangesAsync();
+            }
+
+            // act
+            var response = await client.PostAsync("/api/ticket", JsonContent.Create(ticketPostDto));
+
+            // assert
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        }
+
+        [Fact]
         public async Task CreateTicket_RetornaCreated_SiElEventoExiste()
         {
             await _factory.EnsureCleanDatabaseAsync();
