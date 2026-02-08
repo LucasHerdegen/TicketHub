@@ -83,7 +83,7 @@ namespace TicketHub.API.Controllers
             return CreatedAtAction(nameof(GetTicket), new { Id = ticket.Id }, ticket);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTicket(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

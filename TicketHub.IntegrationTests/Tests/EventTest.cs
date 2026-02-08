@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using TicketHub.API.DTOs.Category;
 using TicketHub.API.DTOs.Event;
 using TicketHub.API.Models;
 
