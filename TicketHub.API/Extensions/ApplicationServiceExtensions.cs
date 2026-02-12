@@ -98,13 +98,14 @@ namespace TicketHub.API.Extensions
 
         public static IServiceCollection AddCorsServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var allowedHosts = configuration["AllowedHosts"]!;
+            var allowedOrigins = configuration["CorsAllowedOrigins"]!;
 
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins(allowedHosts.Split(", "))
+                    policy.WithOrigins(allowedOrigins
+                            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
