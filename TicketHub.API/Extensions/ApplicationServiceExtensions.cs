@@ -104,7 +104,10 @@ namespace TicketHub.API.Extensions
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins(allowedHosts).AllowAnyMethod().AllowAnyHeader();
+                    policy.WithOrigins(allowedHosts.Split(", "))
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
 
