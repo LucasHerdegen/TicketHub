@@ -1,5 +1,6 @@
 using AutoMapper;
 using TicketHub.API.DTOs.Event;
+using TicketHub.API.DTOs.Ticket;
 using TicketHub.API.Models;
 using TicketHub.API.Pagination;
 using TicketHub.API.Repository;
@@ -12,12 +13,17 @@ namespace TicketHub.API.Services.Implementations
         private readonly IEventRepository _repository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<EventService> _logger;
 
-        public EventService(IEventRepository repository, IMapper mapper, IRepository<Category> categoryRepository)
+        public EventService(IEventRepository repository,
+            IMapper mapper,
+            IRepository<Category> categoryRepository,
+            ILogger<EventService> logger)
         {
             _repository = repository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
+            _logger = logger;
         }
 
         public async Task<PagedList<EventDto>> GetEvents(PaginationParams pParams)
@@ -31,6 +37,8 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<EventDto?> GetEvent(int id)
         {
+            _logger.LogInformation("Obteniendo el evento {id}", id);
+
             var evnt = await _repository.GetEventByIdWithCategory(id);
 
             if (evnt == null)
@@ -43,16 +51,25 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<EventDto?> CreateEvent(EventPostDto eventPostDto)
         {
+            _logger.LogInformation("Creando evento con nombre: {name}", eventPostDto.Name);
+
             var exist = await _repository.Any(e =>
                 e.Name!.ToUpper() == eventPostDto.Name!.ToUpper() && e.Date.Hour == eventPostDto.Date.Hour);
 
             if (exist)
+            {
+                _logger.LogWarning("El evento con nombre {name} ya existe en esa fecha", eventPostDto.Name);
                 return null;
+            }
 
             var validCategory = await _categoryRepository.Any(c => c.Id == eventPostDto.CategoryId);
 
             if (!validCategory)
+            {
+                _logger.LogWarning("La categoría con id {id} no existe para crear el evento {name}",
+                    eventPostDto.CategoryId, eventPostDto.Name);
                 return null;
+            }
 
             var evnt = _mapper.Map<Event>(eventPostDto);
 
@@ -67,10 +84,17 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<bool> UpdateEvent(EventPutDto eventPutDto)
         {
+            _logger.LogInformation("Actualizando el evento {id}", eventPutDto.Id);
+
             var validCategory = await _categoryRepository.Any(c => c.Id == eventPutDto.CategoryId);
 
             if (!validCategory)
+            {
+                _logger.LogWarning("La categoría {cId} no existe para actualizar el evento {id}",
+                    eventPutDto.CategoryId, eventPutDto.Id);
                 return false;
+            }
+
 
             var exist = await _repository.Any(e =>
                 e.Name!.ToUpper() == eventPutDto.Name!.ToUpper() &&
@@ -78,7 +102,12 @@ namespace TicketHub.API.Services.Implementations
                 e.Id != eventPutDto.Id);
 
             if (exist)
+            {
+                _logger.LogWarning("No se puede actualizar el evento {id} porque ya existe otro evento con el nombre {name} en la misma fecha",
+                    eventPutDto.Id, eventPutDto.Name);
                 return false;
+            }
+
 
             var evnt = await _repository.GetById(eventPutDto.Id);
 
@@ -94,6 +123,8 @@ namespace TicketHub.API.Services.Implementations
 
         public async Task<bool> DeleteEvent(int id)
         {
+            _logger.LogInformation("Eliminando el evento {id}", id);
+
             var evnt = await _repository.GetById(id);
 
             if (evnt == null)

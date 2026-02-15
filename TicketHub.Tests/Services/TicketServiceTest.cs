@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TicketHub.API.DTOs.Ticket;
 using TicketHub.API.Models;
@@ -15,14 +16,16 @@ namespace TicketHub.Tests.Services
         private readonly Mock<ITicketRepository> _mockRepository;
         private readonly Mock<IRepository<Event>> _mockEventRepository;
         private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<ILogger<TicketService>> _mockLogger;
 
         public TicketServiceTest()
         {
             _mockRepository = new Mock<ITicketRepository>();
             _mockEventRepository = new Mock<IRepository<Event>>();
             _mockMapper = new Mock<IMapper>();
+            _mockLogger = new Mock<ILogger<TicketService>>();
 
-            _service = new TicketService(_mockRepository.Object, _mockMapper.Object, _mockEventRepository.Object);
+            _service = new TicketService(_mockRepository.Object, _mockMapper.Object, _mockEventRepository.Object, _mockLogger.Object);
         }
 
         [Fact]
@@ -118,7 +121,6 @@ namespace TicketHub.Tests.Services
             result.Should().BeNull();
             _mockRepository.Verify(repo => repo.Any(TicketExpression), Times.Once);
             _mockEventRepository.Verify(repo => repo.GetById(eventId), Times.Once);
-            _mockRepository.Verify(repo => repo.Count(TicketExpression), Times.Never);
         }
 
         [Fact]
@@ -141,7 +143,6 @@ namespace TicketHub.Tests.Services
 
             _mockRepository.Setup(repo => repo.Any(TicketExpression)).ReturnsAsync(false);
             _mockEventRepository.Setup(repo => repo.GetById(eventId)).ReturnsAsync(evnt);
-            _mockRepository.Setup(repo => repo.Count(TicketExpression)).ReturnsAsync(capacity);
 
             // act
             var result = await _service.CreateTicket(ticketPostDto, userId);
@@ -150,7 +151,6 @@ namespace TicketHub.Tests.Services
             result.Should().BeNull();
             _mockRepository.Verify(repo => repo.Any(TicketExpression), Times.Once);
             _mockEventRepository.Verify(repo => repo.GetById(eventId), Times.Once);
-            _mockRepository.Verify(repo => repo.Count(TicketExpression), Times.Once);
         }
 
         [Fact]
@@ -187,7 +187,6 @@ namespace TicketHub.Tests.Services
 
             _mockRepository.Setup(repo => repo.Any(TicketExpression)).ReturnsAsync(false);
             _mockEventRepository.Setup(repo => repo.GetById(eventId)).ReturnsAsync(evnt);
-            _mockRepository.Setup(repo => repo.Count(TicketExpression)).ReturnsAsync(0);
             _mockRepository.Setup(repo => repo.Create(It.IsAny<Ticket>()))
                 .Callback<Ticket>(t => t.Id = id);
             _mockRepository.Setup(repo => repo.GetTicketWithEvent(id, userId)).ReturnsAsync(ticket);
@@ -201,7 +200,6 @@ namespace TicketHub.Tests.Services
             result.Should().Be(ticketDto);
             _mockRepository.Verify(repo => repo.Any(TicketExpression), Times.Once);
             _mockEventRepository.Verify(repo => repo.GetById(eventId), Times.Once);
-            _mockRepository.Verify(repo => repo.Count(TicketExpression), Times.Once);
             _mockRepository.Verify(repo => repo.Save(), Times.Once);
         }
 

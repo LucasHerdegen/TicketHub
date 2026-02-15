@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TicketHub.API.Models
@@ -14,5 +15,9 @@ namespace TicketHub.API.Models
         public string? ImageUrl { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
+        public int SoldTickets { get; set; } = 0;
+
+        [Timestamp]
+        public byte[]? RowVersion { get; set; }
     }
 }

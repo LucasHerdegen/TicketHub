@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using FluentAssertions;
-using FluentAssertions.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TicketHub.API.DTOs.Event;
 using TicketHub.API.Models;
@@ -16,14 +16,16 @@ namespace TicketHub.Tests.Services
         private readonly Mock<IEventRepository> _mockRepository;
         private readonly Mock<IRepository<Category>> _mockCategoryRepository;
         private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<ILogger<EventService>> _mockLogger;
 
         public EventServiceTest()
         {
             _mockRepository = new Mock<IEventRepository>();
             _mockCategoryRepository = new Mock<IRepository<Category>>();
             _mockMapper = new Mock<IMapper>();
+            _mockLogger = new Mock<ILogger<EventService>>();
 
-            _service = new EventService(_mockRepository.Object, _mockMapper.Object, _mockCategoryRepository.Object);
+            _service = new EventService(_mockRepository.Object, _mockMapper.Object, _mockCategoryRepository.Object, _mockLogger.Object);
         }
 
         [Fact]

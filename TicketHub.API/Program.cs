@@ -1,5 +1,5 @@
+using Serilog;
 using TicketHub.API.Extensions;
-using TicketHub.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,10 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddCacheServices(builder.Configuration);
 
-builder.Services.AddSignalR();
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
 
 
 var app = builder.Build();
@@ -30,7 +33,7 @@ app.UseException();
 
 await app.SeedDatabaseAsync();
 
-app.UseLogRequest();
+app.UseSerilogRequestLogging();
 
 app.UseOutputCache();
 
@@ -42,8 +45,6 @@ app.UseAuthorization();
 app.UseRedirection("/", "/swagger");
 
 app.MapControllers();
-
-app.MapHub<UserHub>("/hubs/user");
 
 app.Run();
 

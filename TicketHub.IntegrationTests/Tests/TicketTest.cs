@@ -180,7 +180,8 @@ namespace TicketHub.IntegrationTests.Tests
                     Capacity = 1,
                     Name = "Evento Lleno",
                     Date = DateTime.Now.AddDays(10),
-                    Price = 100
+                    Price = 100,
+                    SoldTickets = 1
                 });
                 await context.SaveChangesAsync();
 
